@@ -1,0 +1,510 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+% DO NOT ALTER THIS PREAMBLE!!!
+%
+% This preamble is designed to ensure that the manual prints
+% out as advertised. If you mess with this preamble,
+% parts of the document may not print out as expected.  If you
+% have problems LaTeXing this file, please contact 
+% the documentation team
+% email: lyx-docs@lists.lyx.org
+\end_preamble
+\options fleqn,liststotoc,bibtotoc,idxtotoc,BCOR7.5mm,titlepage,tablecaptionabove
+\use_default_options false
+\begin_modules
+logicalmkup
+theorems-starred
+endnotes
+hanging
+minimalistic
+eqs-within-sections
+figs-within-sections
+tabs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Format 7
+InsetLayout CharStyle:MenuItem
+LyxType               charstyle
+LabelString           menu
+LatexType             command
+LatexName             menuitem
+Font
+Family              Sans
+EndFont
+Preamble
+\newcommand*{\menuitem}[1]{{\sffamily #1}}
+EndPreamble
+End
+\end_local_layout
+\language spanish
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_title "Manual Personalización de LyX"
+\pdf_author "Equipo LyX"
+\pdf_subject "LyX-documentation Customization"
+\pdf_keywords "LyX, documentation, customization"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle false
+\pdf_quoted_options "linkcolor=black, citecolor=black, urlcolor=blue, filecolor=blue,pdfpagelayout=OneColumn, pdfnewwindow=true,pdfstartview=XYZ, plainpages=false, pdfpagelabels"
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\branch OutDated
+\selected 0
+\filename_suffix 0
+\color #ffffff
+\end_branch
+\index Índice
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle plain
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Análisis de sentimiento usando gensim y word2vec
+\end_layout
+
+\begin_layout Section
+Análisis de sentimiento.
+\end_layout
+
+\begin_layout Standard
+El 
+\emph on
+Análisis de Sentimiento
+\emph default
+, también llamado 
+\emph on
+'minería de opinión
+\emph default
+' intenta determinar la actitud de un interlocutor o un
+\emph on
+ escritor
+\emph default
+ con respecto a algún tema o la
+\emph on
+ polaridad
+\emph default
+ contextual general 
+\emph on
+de un documento
+\emph default
+.
+ La actitud puede ser su juicio o evaluación, estado afectivo (o sea, el
+ estado emocional del autor al momento de escribir), o la intención comunicativa
+ emocional (o sea, el efecto emocional que el autor intenta causar en el
+ lector).
+\end_layout
+
+\begin_layout Standard
+Si nos fijamos en el mundo de Internet, hay multitud de aplicaciones - Amazon,
+ Trip Advisor,...
+ - que solicitan del usuario una clasificación de los productos o servicios
+ utilizados mediante una escala que puede ser {
+\emph on
+Excelente, Muy Bueno, Bueno, Regular, Malo
+\emph default
+} o gráficamente (
+\emph on
+
+\begin_inset Formula $\logof\logof\logof$
+\end_inset
+
+,
+\begin_inset Formula $\logof\logof$
+\end_inset
+
+,
+\begin_inset Formula $\logof$
+\end_inset
+
+,
+\begin_inset Formula $\:$
+\end_inset
+
+ 
+\emph default
+) lo que hace fácil para un programa de ordenador detectar la opinión de
+ los usuarios al respecto.
+ 
+\end_layout
+
+\begin_layout Standard
+Sin embargo, si pudiésemos leer todos los twitters del mundo y fuésemos
+ capaces de detectar aquellos que se relacionan con un producto o servicio
+ - p.e.
+ un restaurante - un humano podrá discernir la valoración que tales mensajes
+ transmiten sobre el restaurante en cuestión, pero es claro que se requerirían
+ muchos humanos para tal labor.
+ Nos preguntamos: ¿Es posible crear un conjunto de programas de ordenador
+ que sea capaz de extraer y clasificar las opiniones que encierran los twitters
+ acerca del restaurante sin intervención humana?.
+\end_layout
+
+\begin_layout Standard
+Este tipo de análisis es el que nos planteamos.
+\end_layout
+
+\begin_layout Section
+Clasificación de textos.
+\end_layout
+
+\begin_layout Standard
+De un modo muy resumido nos enfrentamos al siguiente problema:
+\end_layout
+
+\begin_layout Standard
+Disponemos de un conjunto de 
+\begin_inset Formula $M$
+\end_inset
+
+ 
+\emph on
+mensajes
+\emph default
+, cada uno de los cuales se compone de 
+\begin_inset Formula $w_{j}\:j=1,..,M$
+\end_inset
+
+ palabras y algunos - 
+\begin_inset Formula $K$
+\end_inset
+
+ - de estos mensajes se refieren al 
+\begin_inset Formula $tema$
+\end_inset
+
+ que nos interesa 
+\begin_inset Formula $T$
+\end_inset
+
+ y , de estos, queremos discriminar la 
+\emph on
+opinión
+\emph default
+ que en ellos se contiene.
+\end_layout
+
+\begin_layout Standard
+Sea que los mensajes son todos del mismo tamaño - 100 palabras - y disponemos
+ de 1,000,000 de mensajes en los cuales se han utilizado 25,000 
+\emph on
+palabras 
+\emph default
+diferentes.
+ Ingenuamente, podríamos pensar en indexar cada mensaje en una matriz de
+ incidencia donde cada mensaje es una fila y cada columna una palabra y
+ colocaríamos un 1 cuando la palabra está en el mensaje y un 0 si no lo
+ está:
+\begin_inset Formula 
+\[
+\left(\begin{array}{cccc}
+\textrm{Mensaje} & \textrm{Palabra}1 & .... & \textrm{\textrm{Palabra}P}\\
+tweet1 & 1 & ..... & 0\\
+...... & ... & .... & ....\\
+tweetM & 0 & .... & 1
+\end{array}\right)
+\]
+
+\end_inset
+
+Pero esto tiene dos inconvenientes:
+\end_layout
+
+\begin_layout Itemize
+requiere mucha memoria.
+ Suponiendo 6 bytes por palabra, la matriz ocuparía 
+\begin_inset Formula $6\times10^{6}\times25,000$
+\end_inset
+
+=1,5 GB y 
+\end_layout
+
+\begin_layout Itemize
+la matriz es dispersa, esto es la mayor parte de sus elementos son cero
+ (un mínimo del 99.4 ‰).
+ Una representación mejor es retener solo aquello que ocurre, esto es, las
+ posiciones con un 1 en la matriz.
+ Esto puede conseguirse mediante la construcción de un
+\emph on
+ índice invertido
+\emph default
+ en el que a cada palabra se le asocian los mensajes en que aparece, al
+ contrario de lo que se hace en un índice normal de un 
+\emph on
+documento
+\emph default
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+El concepto de 
+\series bold
+\emph on
+documento
+\series default
+\emph default
+ es importante y puede definirse de múltiples maneras: como un libro, un
+ capítulo de un libro o un párrafo de un capítulo de un libro.
+ Existe un compromiso entre precisión y tamaño del documento.
+ Con frecuencia es necesario indexar documentos a varios niveles (granularidad).
+\end_layout
+
+\end_inset
+
+.
+ El índice invertido consiste en:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+un diccionario en el cual a cada entrada ('
+\emph on
+término
+\emph default
+')
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+No las denominamos 
+\emph on
+palabras
+\emph default
+ porque estas sufren un proceso de normalización para poder ser utilizadas
+ con más efectividad.
+\end_layout
+
+\end_inset
+
+ , cuya frecuencia de aparición en el conjunto de mensajes suele añadirse,
+ se le asocia 
+\end_layout
+
+\begin_layout Enumerate
+los mensajes
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Identificados por su 
+\begin_inset Formula $docID$
+\end_inset
+
+ que puede ser un entero.
+\end_layout
+
+\end_inset
+
+ en que parece ('
+\emph on
+postings
+\emph default
+').
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename index.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+La construcción del índice invertido incluye las siguientes fases:
+\end_layout
+
+\begin_layout Enumerate
+Recolección de mensajes.
+\end_layout
+
+\begin_layout Enumerate
+'
+\emph on
+Tokenización
+\emph default
+' del texto
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Supuesto que hemos identificado el idioma del mensaje, lo que es fácil mediante
+ clasificadores ya que la mayorís de los idiomas tienen su propia
+\emph on
+ signatura
+\emph default
+.
+ 
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Preprocesado lingüístico de los términos '
+\emph on
+tokenizados
+\emph default
+'.
+\end_layout
+
+\begin_layout Enumerate
+Indexado de los documentos en que aparece cada término.
+\end_layout
+
+\begin_layout Standard
+Un método posible es el basado en 
+\emph on
+vectores de palabras 
+\emph default
+en el cual procedemos en dos fases:
+\end_layout
+
+\begin_layout Enumerate
+En la primera, el modelo 
+\emph on
+aprende
+\emph default
+ las probabilidades 
+\begin_inset Formula $p(w|T)$
+\end_inset
+
+ de que la palabra 
+\begin_inset Formula $w$
+\end_inset
+
+ aparezca en el mensaje cuando este se refiere al restaurante en cuestión.
+\end_layout
+
+\begin_layout Enumerate
+En la segunda, hemos de asignar una 
+\emph on
+valoración
+\emph default
+ al contenido del mensaje.
+\end_layout
+
+\begin_layout Standard
+Algunos términos de uso frecuente en clasificación de textos son los siguientes:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Necesidad de información
+\emph default
+: tema sobre el que queremos informarnos.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Relevancia
+\emph default
+: un documento es relevante si contiene información de valor para el usuario.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Efectividad
+\emph default
+: es la calidad de los resultados de la clasificación, para lo cual usaremos
+ los conceptos estadísticos de 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+precisión
+\emph default
+: fracción de los documentos clasificados que son realmente relevantes.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+recuperación
+\emph default
+: fracción de los mensajes relevantes que fueron correctamente clasificados.
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
